@@ -1,0 +1,9 @@
+Hello, this is a test file for concurrent processing!
+
+Line 1: ABCDEFG
+Line 2: 1234567890
+Line 3: Rust并发编程实战
+Line 4: 分块读取测试数据
+Line 5: 最后合并验证完整性
+
+End of test file.
