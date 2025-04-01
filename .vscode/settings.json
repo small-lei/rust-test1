@@ -1,4 +1,9 @@
 {
-    "inline-bookmarks.view.showVisibleFilesOnly": false,
-    "marscode.chatLanguage": "cn"
+    "git.enableSmartCommit": true,
+    "gitlens.codeLens.enabled": true,
+    "gitlens.currentLine.enabled": true,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.defaultDateFormat": "YYYY-MM-DD HH:mm",
+    "gitlens.defaultDateShortFormat": "YYYY-MM-DD",
+    "gitlens.hovers.enabled": true
 }
