@@ -2,7 +2,7 @@ use std::path::Path;
 use std::sync::Arc;
 use tokio::{fs::File, io::{AsyncReadExt, AsyncWriteExt, AsyncSeekExt}, sync::{Semaphore, mpsc}};
 
-const CHUNK_SIZE: usize = 1024 * 1024; // 1MB per chunk
+const CHUNK_SIZE: usize = 1024; // 1MB per chunk
 const MAX_CONCURRENT: usize = 4;
 
 pub async fn process_file_concurrent(input_path: &str, output_path: &str) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
@@ -42,6 +42,7 @@ pub async fn process_file_concurrent(input_path: &str, output_path: &str) -> Res
     let mut next_chunk_to_write = 0;
     while let Some((index, data)) = rx.recv().await {
         chunks.insert(index, data);
+        println!("Chunks state after insert - Current index: {}, Total chunks: {}, Keys: {:?}", index, chunks.len(), chunks.keys().collect::<Vec<_>>());
 
         while chunks.contains_key(&next_chunk_to_write) {
             let data = chunks.remove(&next_chunk_to_write).unwrap();

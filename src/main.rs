@@ -2,7 +2,7 @@ mod test_func;
 
 use test_func::test1::{self, *};
 use test_func::sephone::{self, *};
-
+use test_func::parallel_sum;
 
 /// This function is a placeholder for a test function.//+
 /////+
@@ -21,6 +21,13 @@ use test_func::sephone::{self, *};
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     test_file_processor().await?;
     test_slice();
+    test_parallel_sum().await?;
+    Ok(())
+}
+
+async fn test_parallel_sum() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
+    let sum = parallel_sum::calculate_parallel_sum().await?;
+    println!("并发计算1到10万的数字之和: {}", sum);
     Ok(())
 }
 
