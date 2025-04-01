@@ -1,27 +1,20 @@
 mod test_func;
+mod api;
 
-use test_func::test1::{self, *};
-use test_func::sephone::{self, *};
-use test_func::parallel_sum;
+use std::net::SocketAddr;
+use axum::Server;
 
-/// This function is a placeholder for a test function.//+
-/////+
-/// # Purpose//+
-/////+
-/// The purpose of this function is to demonstrate how to add documentation comments to a Rust function.//+
-/////+
-/// # Parameters//+
-/////+
-/// This function does not take any parameters.//+
-/////+
-/// # Return Value//+
-/////+
-/// This function does not return any value. It simply prints a message to the console.//+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    test_file_processor().await?;
-    test_slice();
-    test_parallel_sum().await?;
+    let app = api::create_router();
+    
+    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    println!("Server running on http://{}", addr);
+
+    Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await?;
+
     Ok(())
 }
 
