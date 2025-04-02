@@ -1,5 +1,5 @@
 {
-    "git.enableSmartCommit": true,
+    "git.enableSmartCommit": true, //注释
     "gitlens.codeLens.enabled": true,
     "gitlens.currentLine.enabled": true,
     "gitlens.hovers.currentLine.over": "line",

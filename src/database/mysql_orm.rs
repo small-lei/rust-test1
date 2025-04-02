@@ -8,6 +8,7 @@ pub struct Model {
     pub id: i32,
     pub name: String,
     pub email: String,
+    pub password: String,
     pub created_at: chrono::DateTime<chrono::Utc>,
     pub updated_at: chrono::DateTime<chrono::Utc>,
 }
@@ -25,11 +26,13 @@ pub async fn establish_connection() -> Result<DatabaseConnection, DbErr> {
     Ok(db)
 }
 
-pub async fn create_user(db: &DatabaseConnection, name: String, email: String) -> Result<Model, DbErr> {
+pub async fn create_user(db: &DatabaseConnection, name: String, email: String, password: String) -> Result<Model, DbErr> {
+    let hashed_password = bcrypt::hash(password, bcrypt::DEFAULT_COST).map_err(|e| DbErr::Custom(e.to_string()))?;
     let now = chrono::Utc::now();
     let user = ActiveModel {
         name: Set(name),
         email: Set(email),
+        password: Set(hashed_password),
         created_at: Set(now),
         updated_at: Set(now),
         ..Default::default()
@@ -63,7 +66,19 @@ pub async fn delete_user(db: &DatabaseConnection, id: i32) -> Result<DeleteResul
     Ok(res)
 }
 
+pub async fn find_user_by_email(db: &DatabaseConnection, email: &str) -> Result<Option<Model>, DbErr> {
+    let user = Entity::find()
+        .filter(Column::Email.eq(email))
+        .one(db)
+        .await?;
+    Ok(user)
+}
+
 pub async fn find_user_by_id(db: &DatabaseConnection, id: i32) -> Result<Option<Model>, DbErr> {
     let user = Entity::find_by_id(id).one(db).await?;
     Ok(user)
+}
+
+pub fn verify_password(stored_hash: &str, input_password: &str) -> bool {
+    bcrypt::verify(input_password, stored_hash).unwrap_or(false)
 }

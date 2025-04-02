@@ -1,12 +1,22 @@
 mod test_func;
 mod api;
+mod database;
+mod middleware;
 
 use std::net::SocketAddr;
 use axum::Server;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let app = api::create_router();
+    tracing_subscriber::fmt()
+        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env()
+            .add_directive("middleware=info".parse()?))
+        .init();
+    let public_router = api::create_public_router();
+    let private_router = api::create_private_router()
+        .layer(tower::ServiceBuilder::new()
+            .layer(axum::middleware::from_fn(middleware::auth::auth_middleware)));
+    let app = public_router.merge(private_router);
     
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     println!("Server running on http://{}", addr);
