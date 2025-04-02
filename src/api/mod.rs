@@ -1,10 +1,8 @@
 use axum::{
-    routing::{get, post, put, delete},
     Router,
-    Json,
-    extract::Path,
+    routing::post
 };
-use serde::{Deserialize, Serialize};
+
 use crate::database::mysql_orm;
 
 pub mod user;

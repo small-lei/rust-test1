@@ -1,8 +1,8 @@
 mod test_func;
 mod api;
+mod database;
 
 use std::net::SocketAddr;
-use axum::Server;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
@@ -11,15 +11,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
     println!("Server running on http://{}", addr);
 
-    Server::bind(&addr)
-        .serve(app.into_make_service())
-        .await?;
+    let listener = tokio::net::TcpListener::bind(&addr).await?;
+    axum::serve(listener, app).await?;
 
     Ok(())
 }
 
 async fn test_parallel_sum() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
-    let sum = parallel_sum::calculate_parallel_sum().await?;
+    let sum = test_func::parallel_sum::calculate_parallel_sum().await?;
     println!("并发计算1到10万的数字之和: {}", sum);
     Ok(())
 }

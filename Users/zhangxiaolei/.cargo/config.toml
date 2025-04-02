@@ -1,8 +1,0 @@
-[registry]
-index = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
-
-[source.crates-io]
-replace-with = 'ustc'
-
-[source.ustc]
-registry = "sparse+https://mirrors.ustc.edu.cn/crates.io-index/"
