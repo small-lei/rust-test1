@@ -7,7 +7,7 @@
     "gitlens.defaultDateShortFormat": "YYYY-MM-DD",
     "gitlens.hovers.enabled": true,
     "rust-analyzer.checkOnSave": true,
-    "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+    "rust-analyzer.cargo.loadOutDirsFromCheck": true, //注释
     "rust-analyzer.check.overrideCommand": [
         "cargo",
         "check",
