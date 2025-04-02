@@ -5,21 +5,5 @@
     "gitlens.hovers.currentLine.over": "line",
     "gitlens.defaultDateFormat": "YYYY-MM-DD HH:mm",
     "gitlens.defaultDateShortFormat": "YYYY-MM-DD",
-    "gitlens.hovers.enabled": true,
-    "rust-analyzer.checkOnSave": true,
-    "rust-analyzer.cargo.loadOutDirsFromCheck": true,
-    "rust-analyzer.check.overrideCommand": [
-        "cargo",
-        "check",
-        "--workspace",
-        "--message-format=json",
-        "--all-targets"
-    ],
-    "rust-analyzer.procMacro.enable": false,
-    "rust-analyzer.files.watcher": "client",
-    "rust-analyzer.lruCapacity": 50,
-    "rust-analyzer.server.extraEnv": {
-        "RA_LOG": "error",
-        "RA_MEMORY_PROFILING": "1"
-    }
+    "gitlens.hovers.enabled": true
 }
